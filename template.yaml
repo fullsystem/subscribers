@@ -23,19 +23,14 @@ Resources:
             Method: any
 
   SubscribersTable:
-    Type: AWS::DynamoDB::Table
-    BillingMode: PAY_PER_REQUEST
+    Type: AWS::Serverless::SimpleTable
     Properties:
-      AttributeDefinitions:
-        - AttributeName: email
-          AttributeType: S
-      KeySchema:
-        - AttributeName: email
-          KeyType: HASH
+      PrimaryKey:
+        Name: email
+        Type: String
       ProvisionedThroughput:
+        ReadCapacityUnits: 1
         WriteCapacityUnits: 1
-      StreamSpecification:
-        StreamViewType: NEW_IMAGE
 
 Outputs:
   SubscribersApi:
