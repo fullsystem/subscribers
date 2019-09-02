@@ -1,9 +1,5 @@
 version: 0.2
 
-#################################
-# Runtime Environment Variables #
-#################################
-
 # env:
 #   variables:
 #     key: "value"
@@ -14,9 +10,12 @@ version: 0.2
 
 phases:
   install:
+    runtime-versions:
+      nodejs: 10
     commands:
       # Use Install phase to install packages or any pre-reqs you may need throughout the build (e.g. dev deps, security checks, etc.)
-      # - echo "[Install phase]"
+      - echo "[Install phase]"
+      - cd ./src && npm install && cd .."
   pre_build:
     commands:
       # Use Pre-Build phase to run tests, install any code deps or any other customization before build
