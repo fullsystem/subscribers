@@ -1,0 +1,34 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: "Subscribers Service"
+  
+Globals:
+  Function:
+    Timeout: 3
+
+Resources:
+  SubscribersFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/
+      Handler: app.lambdaHandler
+      Runtime: nodejs10.x
+      MemorySize: 256
+      Timeout: 30
+      Events:
+        Subscribers:
+          Type: Api
+          Properties:
+            Path: /
+            Method: any
+
+Outputs:
+  SubscribersApi:
+    Description: "API Gateway endpoint URL for Prod stage for Subscribers function"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
+  SubscribersFunction:
+    Description: "Subscribers Lambda Function ARN"
+    Value: !GetAtt SubscribersFunction.Arn
+  SubscribersFunctionIamRole:
+    Description: "Implicit IAM Role created for Subscribers function"
+    Value: !GetAtt SubscribersFunctionRole.Arn
