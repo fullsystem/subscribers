@@ -130,13 +130,6 @@ Resources:
                         - Name: BuildArtifactAsZip
                 - Name: Prod
                   Actions:
-                    - Name: DeploymentApproval
-                      ActionTypeId:
-                        Category: Approval
-                        Owner: AWS
-                        Provider: Manual
-                        Version: "1"
-                      RunOrder: 1
                     - Name: CreateChangeSet
                       ActionTypeId:
                         Category: Deploy
@@ -152,7 +145,7 @@ Resources:
                         Capabilities: CAPABILITY_IAM
                       InputArtifacts:
                         - Name: BuildArtifactAsZip
-                      RunOrder: 2
+                      RunOrder: 1
                     - Name: ExecuteChangeSet
                       ActionTypeId:
                         Category: Deploy
@@ -166,7 +159,7 @@ Resources:
                         ChangeSetName: subscribers-ChangeSet-Prod
                       OutputArtifacts:
                         - Name: subscribersProdChangeSet
-                      RunOrder: 3
+                      RunOrder: 2
 
     CodeBuildServiceRole:
         Type: AWS::IAM::Role

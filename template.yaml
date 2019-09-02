@@ -32,6 +32,8 @@ Resources:
       KeySchema:
         - AttributeName: email
           KeyType: HASH
+      ProvisionedThroughput:
+        WriteCapacityUnits: 1
       StreamSpecification:
         StreamViewType: NEW_IMAGE
 
