@@ -128,6 +128,38 @@ Resources:
                         - Name: SourceCodeAsZip
                       OutputArtifacts:
                         - Name: BuildArtifactAsZip
+                - Name: Dev
+                  Actions:
+                    - Name: CreateChangeSet
+                      ActionTypeId:
+                        Category: Deploy
+                        Owner: AWS
+                        Provider: CloudFormation
+                        Version: "1"
+                      Configuration:
+                        ActionMode: CHANGE_SET_REPLACE
+                        RoleArn: !GetAtt CloudFormationExecutionRole.Arn
+                        StackName: subscribers-Dev
+                        ChangeSetName: subscribers-ChangeSet-Beta
+                        TemplatePath: BuildArtifactAsZip::packaged.yaml
+                        Capabilities: CAPABILITY_IAM
+                      InputArtifacts:
+                        - Name: BuildArtifactAsZip
+                      RunOrder: 1
+                    - Name: ExecuteChangeSet
+                      ActionTypeId:
+                        Category: Deploy
+                        Owner: AWS
+                        Provider: CloudFormation
+                        Version: "1"
+                      Configuration:
+                        ActionMode: CHANGE_SET_EXECUTE
+                        RoleArn: !GetAtt CloudFormationExecutionRole.Arn
+                        StackName: subscribers-Beta
+                        ChangeSetName: subscribers-ChangeSet-Beta
+                      OutputArtifacts:
+                        - Name: subscribersBetaChangeSet
+                      RunOrder: 2
                 - Name: Prod
                   Actions:
                     - Name: CreateChangeSet
