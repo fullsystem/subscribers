@@ -22,6 +22,21 @@ Resources:
             Path: /
             Method: any
 
+  SubscribersTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: email
+          AttributeType: S
+      KeySchema:
+        - AttributeName: email
+          KeyType: string
+      ProvisionedThroughput:
+        ReadCapacityUnits: 0
+        WriteCapacityUnits: 0
+      StreamSpecification:
+        StreamViewType: NEW_IMAGE
+
 Outputs:
   SubscribersApi:
     Description: "API Gateway endpoint URL for Prod stage for Subscribers function"
