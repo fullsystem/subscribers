@@ -24,16 +24,14 @@ Resources:
 
   SubscribersTable:
     Type: AWS::DynamoDB::Table
+    BillingMode: PAY_PER_REQUEST
     Properties:
       AttributeDefinitions:
         - AttributeName: email
           AttributeType: S
       KeySchema:
         - AttributeName: email
-          KeyType: string
-      ProvisionedThroughput:
-        ReadCapacityUnits: 1
-        WriteCapacityUnits: 1
+          KeyType: HASH
       StreamSpecification:
         StreamViewType: NEW_IMAGE
 
