@@ -14,7 +14,7 @@ Resources:
       Handler: app.lambdaHandler
       Runtime: nodejs10.x
       MemorySize: 256
-      Timeout: 30
+      Timeout: 15
       Events:
         Subscribers:
           Type: Api
@@ -32,8 +32,8 @@ Resources:
         - AttributeName: email
           KeyType: string
       ProvisionedThroughput:
-        ReadCapacityUnits: 0
-        WriteCapacityUnits: 0
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
       StreamSpecification:
         StreamViewType: NEW_IMAGE
 
