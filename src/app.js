@@ -5,7 +5,7 @@ const subscribers = require("./subscribers")
 exports.lambdaHandler = async (event, context, callback) => {
     const response = (err, response) => callback(null, {
         statusCode: err ? '400' : '200',
-        body: err ? JSON.stringify({error: err.message}) : JSON.stringify(response),
+        body: err ? JSON.stringify({error: err.message, stack: err.stack.split("\n")}) : JSON.stringify(response),
         headers: {
             'Content-Type': 'application/json',
         },
@@ -32,8 +32,9 @@ exports.lambdaHandler = async (event, context, callback) => {
             default:
                 response(new Error(`Unsupported method "${event.httpMethod}"`))
         }
-    } catch (error) {
-        console.log(error)
-        response(new Error(error))
+    } catch (e) {
+        console.error(e);
+
+        response(new Error(e))
     }
 };
