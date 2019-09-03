@@ -12,21 +12,21 @@ exports.lambdaHandler = async (event, context, callback) => {
     switch (event.httpMethod) {
         case 'DELETE':
             // dynamo.deleteItem(JSON.parse(event.body), done)
-            done(null, JSON.parse(event.body))
+            return done(null, JSON.parse(event.body))
             break;
         case 'GET':
             // dynamo.scan({ TableName: event.queryStringParameters.TableName }, done)
-            done(null, JSON.parse(event.body))
+            return done(null, JSON.parse(event.body))
             break;
         case 'POST':
             // dynamo.putItem(JSON.parse(event.body), done)
-            done(null, JSON.parse(event.body))
+            return done(null, JSON.parse(event.body))
             break;
         case 'PUT':
             // dynamo.updateItem(JSON.parse(event.body), done)
-            done(null, JSON.parse(event.body))
+            return done(null, JSON.parse(event.body))
             break;
         default:
-            done(new Error(`Unsupported method "${event.httpMethod}"`))
+            return done(new Error(`Unsupported method "${event.httpMethod}"`))
     }
 }
