@@ -7,7 +7,7 @@ Globals:
     Timeout: 3
 
 Resources:
-  Function:
+  SubscribersFunction:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: src/
@@ -22,7 +22,7 @@ Resources:
             Path: /
             Method: any
 
-  Table:
+  SubscribersTable:
     Type: AWS::Serverless::SimpleTable
     Properties:
       PrimaryKey:
