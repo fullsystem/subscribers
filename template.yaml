@@ -1,7 +1,7 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: "Subscribers Service"
-  
+
 Globals:
   Function:
     Timeout: 3
@@ -15,6 +15,9 @@ Resources:
       Runtime: nodejs10.x
       MemorySize: 256
       Timeout: 15
+      Environment:
+        Variables:
+          SUBSCRIBERS_TABLE: !Ref SubscribersTable
       Events:
         Subscribers:
           Type: Api

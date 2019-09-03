@@ -12,15 +12,22 @@ exports.lambdaHandler = async (event, context, callback) => {
     })
 
     try {
+        event.body = JSON.parse(event.body)
+
         switch (event.httpMethod) {
+            case 'DELETE':
+                event.body.activated_at = null
+
+                await subscribers.update(event.body, response)
+                break;
             case 'GET':
-                await subscribers.search(JSON.parse(event.body), response)
+                await subscribers.search(event.body, response)
                 break;
             case 'POST':
-                await subscribers.create(JSON.parse(event.body), response)
+                await subscribers.create(event.body, response)
                 break;
             case 'PUT':
-                await subscribers.update(JSON.parse(event.body), response)
+                await subscribers.update(event.body, response)
                 break;
             default:
                 response(new Error(`Unsupported method "${event.httpMethod}"`))
