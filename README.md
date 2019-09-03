@@ -1,4 +1,6 @@
-# subscribers
+# Subscribers Service - Just to learn (always in development mode)
+
+***Hey do you read this part "Just to learn (always in development mode)" in project's title*** 
 
 This is a sample template for subscribers - Below is a brief explanation of what we have generated for you:
 
