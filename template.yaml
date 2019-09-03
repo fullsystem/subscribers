@@ -29,7 +29,7 @@ Resources:
     Type: AWS::Serverless::SimpleTable
     Properties:
       PrimaryKey:
-        Name: email
+        Name: id
         Type: String
 
 Outputs:

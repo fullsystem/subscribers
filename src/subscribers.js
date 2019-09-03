@@ -1,18 +1,42 @@
 'use strict'
 
+const uuid = require('uuid')
 const AWS = require("aws-sdk")
-let dynamo = new AWS.DynamoDB.DocumentClient();
 
-console.log()
+let db = new AWS.DynamoDB.DocumentClient()
 
-exports.search = (params, callback) => {
-    callback(null, {tableName: process.env.SUBSCRIBERS_TABLE})
-};
+module.exports.search = (data, callback) => {
+}
 
-exports.create = (params, callback) => {
-    callback(null, {tableName: process.env.SUBSCRIBERS_TABLE})
-};
+module.exports.create = (data, callback) => {
+    const timestamp = new Date().getTime()
+
+    if (typeof data.email !== 'string') {
+        callback(new Error('Email is required.'))
+        return
+    }
+
+    const params = {
+        TableName: process.env.SUBSCRIBERS_TABLE,
+        Item: {
+            id: uuid.v1(),
+            email: data.email,
+            activated_at: false,
+            createdAt: timestamp,
+            updatedAt: timestamp,
+        },
+    }
+
+    db.put(params, (error) => {
+        if (error) {
+            callback(new Error('Couldn\'t create the subscriber.'))
+            return
+        }
+
+        callback(null, params.Item)
+    })
+}
 
 exports.update = (params, callback) => {
     callback(null, {tableName: process.env.SUBSCRIBERS_TABLE})
-};
+}
