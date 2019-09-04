@@ -6,7 +6,7 @@ const Subscribers = new Db
 exports.lambdaHandler = async (event, context, callback) => {
     const response = (err, response) => callback(null, {
         statusCode: err ? '400' : '200',
-        body: err ? JSON.stringify({error: err.message, stack: err.stack.split("\n")}) : JSON.stringify(response),
+        body: err ? JSON.stringify({error: err.message}) : JSON.stringify(response),
         headers: {
             'Content-Type': 'application/json',
         },
