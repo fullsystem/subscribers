@@ -15,6 +15,9 @@ Resources:
       Runtime: nodejs10.x
       MemorySize: 256
       Timeout: 15
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref SubscribersTable
       Environment:
         Variables:
           SUBSCRIBERS_TABLE: !Ref SubscribersTable
