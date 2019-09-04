@@ -12,11 +12,21 @@ module.exports.create = (data, callback) => {
     const timestamp = new Date().getTime()
 
     if (typeof data.email !== 'string') {
-        callback(new Error('Email is required.'))
-        return
+        throw new Error('Email is required.')
     }
 
-    callback(null, {date: timestamp})
+    let params = {
+        TableName: process.env.SUBSCRIBERS_TABLE,
+        Item: {
+            id: uuid.v1(),
+            email: data.email,
+            activated_at: false,
+            createdAt: timestamp,
+            updatedAt: timestamp,
+        },
+    };
+
+    callback(null, {data: params})
 }
 
 exports.update = (params, callback) => {
