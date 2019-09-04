@@ -20,13 +20,20 @@ module.exports.create = (data, callback) => {
         Item: {
             id: uuid.v1(),
             email: data.email,
-            activated_at: false,
+            email_verified_at: false,
             createdAt: timestamp,
             updatedAt: timestamp,
         },
     };
 
-    callback(null, {data: params})
+    db.put(params, (error) => {
+        if (error) {
+            throw error
+            throw new Error('Couldn\'t create the todo item.')
+        }
+
+        callback(null, params.Item);
+    })
 }
 
 exports.update = (params, callback) => {
