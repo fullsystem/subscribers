@@ -24,15 +24,12 @@ module.exports.create = (data, callback) => {
             createdAt: timestamp,
             updatedAt: timestamp,
         },
-    };
+    }
 
-    db.put(params, (error) => {
-        if (error) {
-            throw error
-            throw new Error('Couldn\'t create the todo item.')
-        }
-
-        callback(null, params.Item);
+    return db.put(params).promise().then((result) => {
+        callback(null, result)
+    }, (error) => {
+        throw error
     })
 }
 
