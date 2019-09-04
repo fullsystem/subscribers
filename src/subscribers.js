@@ -31,7 +31,7 @@ module.exports = class DB {
             let timestamp = new Date().getTime()
             let params = {
                 TableName: process.env.SUBSCRIBERS_TABLE,
-                Item: {id: uuid.v1(), email: data.email, email_verified_at: null, createdAt: timestamp, updatedAt: timestamp}
+                Item: {id: uuid.v1(), email: data.email, email_verified_at: false, createdAt: timestamp, updatedAt: timestamp}
             }
 
             documentClient.put(params, function (err, result) {
