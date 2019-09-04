@@ -11,6 +11,11 @@ module.exports.search = (data, callback) => {
 module.exports.create = (data, callback) => {
     const timestamp = new Date().getTime()
 
+    if (typeof data.email !== 'string') {
+        callback(new Error('Email is required.'))
+        return
+    }
+
     callback(null, {date: timestamp})
 }
 
