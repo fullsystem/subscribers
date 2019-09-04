@@ -1,6 +1,7 @@
 'use strict'
 
-const subscribers = require("./subscribers")
+const Db = require("./subscribers")
+const Subscribers = new Db
 
 exports.lambdaHandler = async (event, context, callback) => {
     const response = (err, response) => callback(null, {
@@ -15,20 +16,12 @@ exports.lambdaHandler = async (event, context, callback) => {
         event.body = JSON.parse(event.body)
 
         switch (event.httpMethod) {
-            case 'DELETE':
-                event.body.activated_at = null
-
-                await subscribers.update(event.body, response)
-                break;
-            case 'GET':
-                await subscribers.search(event.body, response)
-                break;
             case 'POST':
-                await subscribers.create(event.body, response)
-                break;
-            case 'PUT':
-                await subscribers.update(event.body, response)
-                break;
+                await Subscribers.write(event.body).then((p1, p2) => {
+                    response(null, p1)
+                })
+                break
+
             default:
                 response(new Error(`Unsupported method "${event.httpMethod}"`))
         }

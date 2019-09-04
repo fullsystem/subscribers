@@ -3,36 +3,48 @@
 const uuid = require('uuid')
 const AWS = require("aws-sdk")
 
-let db = new AWS.DynamoDB.DocumentClient()
+let documentClient = new AWS.DynamoDB.DocumentClient()
 
-module.exports.search = (data, callback) => {
-}
+module.exports = class DB {
+    get(key, value) {
+        if (typeof key !== 'string') throw new Error(`key was not string and was ${JSON.stringify(key)}`)
+        if (typeof value !== 'string') throw new Error(`value was not string and was ${JSON.stringify(value)}`)
 
-module.exports.create = (data, callback) => {
-    const timestamp = new Date().getTime()
+        return new Promise((resolve, reject) => {
+            let params = {TableName: process.env.SUBSCRIBERS_TABLE, Key: {[key]: value}}
 
-    if (typeof data.email !== 'string') {
-        throw new Error('Email is required.')
+            documentClient.get(params, function (err, data) {
+                if (err) {
+                    console.log(`There was an error fetching the data for ${key} ${value} on table ${table}`, err)
+                    return reject(err)
+                }
+
+                return resolve(data.Item)
+            })
+        })
     }
 
-    let params = {
-        TableName: process.env.SUBSCRIBERS_TABLE,
-        Item: {
-            id: uuid.v1(),
-            email: data.email,
-            email_verified_at: false,
-            createdAt: timestamp,
-            updatedAt: timestamp,
-        },
+    write(data) {
+        return new Promise((resolve, reject) => {
+            if (!data) throw "data is needed"
+
+            let timestamp = new Date().getTime()
+            let params = {
+                TableName: process.env.SUBSCRIBERS_TABLE,
+                Item: {id: uuid.v1(), email: data.email, email_verified_at: false, createdAt: timestamp, updatedAt: timestamp}
+            }
+
+            documentClient.put(params, function (err, result) {
+                if (err) {
+                    console.log("Err in writeForCall writing messages to dynamo:", err)
+                    console.log(params)
+                    return reject(err)
+                }
+
+                console.log('wrote data to table ', process.env.SUBSCRIBERS_TABLE)
+
+                return resolve({...result.Attributes, ...params.Item})
+            })
+        })
     }
-
-    return db.put(params).promise().then((result) => {
-        callback(null, result)
-    }, (error) => {
-        throw error
-    })
-}
-
-exports.update = (params, callback) => {
-    callback(null, {tableName: process.env.SUBSCRIBERS_TABLE})
 }
