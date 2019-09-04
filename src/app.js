@@ -17,8 +17,8 @@ exports.lambdaHandler = async (event, context, callback) => {
 
         switch (event.httpMethod) {
             case 'POST':
-                await Subscribers.write(event.body).then((p1, p2) => {
-                    response(null, p1)
+                await Subscribers.write(event.body).then((subscriber) => {
+                    response(null, subscriber)
                 })
                 break
 
