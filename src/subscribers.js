@@ -26,7 +26,7 @@ module.exports = class DB {
 
     write(data) {
         return new Promise((resolve, reject) => {
-            if (!data) throw "data is needed"
+            if (!data.email) throw "email is required"
 
             let timestamp = new Date().getTime()
             let params = {
@@ -36,12 +36,12 @@ module.exports = class DB {
 
             documentClient.put(params, function (err, result) {
                 if (err) {
-                    console.log("Err in writeForCall writing messages to dynamo:", err)
+                    console.log("Err in WriteForCall writing messages to dynamo:", err)
                     console.log(params)
                     return reject(err)
                 }
 
-                console.log('wrote data to table ', process.env.SUBSCRIBERS_TABLE)
+                console.log('Wrote data to table ', process.env.SUBSCRIBERS_TABLE)
 
                 return resolve({...result.Attributes, ...params.Item})
             })
