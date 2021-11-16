@@ -7,7 +7,7 @@
   "author": "Renato Dehnhardt <renatotkd@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "aws-sdk": "^2.522.0",
+    "aws-sdk": "^2.814.0",
     "axios": "^0.18.0",
     "uuid": "^3.3.3"
   },
